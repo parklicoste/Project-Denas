@@ -25,7 +25,7 @@ int Program :: programMenu(int& selection)
   int numOptions = 12;
 
   cout << endl;
-  cout << "(1) ALLERGYy" << endl;
+  cout << "(1) ALLERGY" << endl;
   cout << "(2) PAIN" << endl;
   cout << "(3) INT. PAIN" << endl;
   cout << "(4) BLOATING" << endl;
@@ -39,7 +39,9 @@ int Program :: programMenu(int& selection)
   cout << "PRESS (0) TO GO BACK" << endl;
   cout << endl;
 
-  while (selection < 0 || selection > numOptions) {
+  while (selection < 0 || selection > numOptions|| cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
     cout << "Enter your selection: ";
     cin  >> selection;
   }

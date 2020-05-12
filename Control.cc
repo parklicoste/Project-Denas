@@ -8,6 +8,8 @@ using namespace std;
 #include "Frequency.h"
 #include "BabyDoctor.h"
 #include "Settings.h"
+#include "Timer.h"
+#include "Alarm.h"
 
 
 Control::Control()
@@ -39,12 +41,15 @@ void Control::launch()
             handleFrequency();
 
           }
-          else if(menuSelection == 3){//for MED
-            int medSelection;// for selecting meds
-            // I guess it's just the timer
-          }
-          else if(menuSelection == 4){//for SCREENING
-            int screeningSelection;// for selecting Screening
+          else if(menuSelection == 3 || menuSelection == 4){//for MED
+            //set the timer for med or SCREENING
+            Timer newT(0,0,0);
+            newT.displayClock();
+            newT = v.setStopwatch();
+            int power;
+            v.selectPower(power);
+            if (power == 0) break;
+            else runTimer(newT);
           }
           else if(menuSelection == 5){//for CHILDREN
             handleChildern();
@@ -67,18 +72,10 @@ void Control::handleProgram()
 
     if (programSelection == 0)
       break;
-    else if(programSelection == 1){}
-    else if(programSelection == 2){}
-    else if(programSelection == 3){}
-    else if(programSelection == 4){}
-    else if(programSelection == 5){}
-    else if(programSelection == 6){}
-    else if(programSelection == 7){}
-    else if(programSelection == 8){}
-    else if(programSelection == 9){}
-    else if(programSelection == 10){}
-    else if(programSelection == 11){}
-    else {}
+    else {
+        Timer t(0,10,0);
+        runTimer(t);
+    }
   }
 }
 
@@ -92,17 +89,14 @@ void Control::handleFrequency()
 
     if (frequencySelection == 0)
       break;
-    else if(frequencySelection == 1){}
-    else if(frequencySelection == 2){}
-    else if(frequencySelection == 3){}
-    else if(frequencySelection == 4){}
-    else if(frequencySelection == 5){}
-    else if(frequencySelection == 6){}
-    else if(frequencySelection == 7){}
-    else if(frequencySelection == 8){}
-    else if(frequencySelection == 9){}
-    else if(frequencySelection == 10){}
-    else {}
+    else {
+      Timer t(0,10,0);
+      t.displayClock();
+      int power;
+      v.selectPower(power);
+      if (power == 0) break;
+      else runTimer(t);
+    }
   }
 }
 
@@ -116,11 +110,26 @@ void Control::handleChildern()
 
     if (ageSelection == 0)
       break;
-    else if(ageSelection == 1){}
-    else if(ageSelection == 2){}
-    else if(ageSelection == 3){}
-    else if(ageSelection == 4){}
-    else {}
+    else if(ageSelection == 1){
+      cout<<"CHILD MODE: DISABLED\n";
+      break;
+    }
+    else if(ageSelection == 2){
+      cout<<"CHILD MODE: UPTO 1 YEAR\n";
+      break;
+    }
+    else if(ageSelection == 3){
+      cout<<"CHILD MODE: 1 - 3 YEARS\n";
+      break;
+    }
+    else if(ageSelection == 4){
+      cout<<"CHILD MODE: 4 - 7 YEARS\n";
+      break;
+    }
+    else {
+      cout<<"CHILD MODE: 8 - 12 YEARS\n";
+      break;
+    }
   }
 }
 
@@ -134,10 +143,121 @@ void Control::handleSettings()
 
     if (settingSelection == 0)
       break;
-    else if(settingSelection == 1){}
-    else if(settingSelection == 2){}
-    else if(settingSelection == 3){}
-    else if(settingSelection == 4){}
-    else {}
+
+    else if(settingSelection == 1){
+          int sound;//SOUND LEVEL
+          cout<<"Enter Sound Level: 0 to 6: ";
+          cin>> sound;
+          while(sound<0 || sound >6|| cin.fail()){
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(),'\n');
+            cout<<"\nERROR: Wrong input\nTry again Sound level 0 to 6: ";
+            cin>>sound;
+          }
+          cout<<"\n Sound Level is: "<<sound<<endl;
+    }
+
+    else if(settingSelection == 2 || settingSelection == 3){
+            int bright;//for brightness
+            if(settingSelection == 2){
+              cout<<"Enter Brightness Level: 0 to 6: ";
+              cin>> bright;
+              while(bright<0 || bright >6|| cin.fail()){
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout<<"\nERROR: Wrong input\nTry again Brightness level 0 to 6: ";
+                cin>>bright;
+              }
+
+            }
+            else{
+              cout<<"Economy mode is ON \n";
+              bright = 3;
+            }
+            cout<<"\nBrightness Level is: "<<bright<<endl;
+    }
+
+    else if(settingSelection == 4){
+            Timer t;//for recording
+            t.displayClock();
+            char start;
+            cout<<"Press Y or y to start recording\n";
+            cout<<"Press any other Key to go back: ";
+            cin>>start;
+            if(start == 'Y' || start == 'y'){
+              t.stopwatch();
+            }
+            else cout << string( 100, '\n' );
+    }
+
+    else if(settingSelection == 5){
+      Timer time = v.setStopwatch();//clock
+      time.stopwatch();
+    }
+
+    else if(settingSelection == 6){
+      Alarm a;
+      a.setAlarm(v.setStopwatch());
+    }
+
+    else if(settingSelection == 7){
+          int langSelection = -1;
+          v.changeLanguage(langSelection);
+          if(langSelection == 0)continue;
+          else if(langSelection == 1){
+            cout<<"LANGUAGE MODE: RUSSIAN\n";
+            //break;
+          }
+          else if(langSelection == 2){
+            cout<<"LANGUAGE MODE: ENGLISH\n";
+            //break;
+          }
+          else if(langSelection == 3){
+            cout<<"LANGUAGE MODE: GERMAN\n";
+            //break;
+          }
+          else if (langSelection == 4){
+            cout<<"LANGUAGE MODE: FRANCIAS\n";
+            //break;
+          }
+          else{
+            cout<<"LANGUAGE MODE: ITALIAN\n";
+            //break;
+          }
+    }
+    else{
+          int colourSelection = -1;
+          v.changeColour(colourSelection);
+          if(colourSelection == 0)continue;
+          else if(colourSelection == 1){
+            cout<<"COLOUR MODE: TURQUOISE\n";
+            //break;
+          }
+          else if(colourSelection == 2){
+            cout<<"COLOUR MODE: WINTER\n";
+            //break;
+          }
+          else if(colourSelection == 3){
+            cout<<"COLOUR MODE: BRONZE\n";
+            //break;
+          }
+          else {
+            cout<<"COLOUR MODE: NIGHT\n";
+            //break;
+          }
+    }
   }
+}
+
+void Control::runTimer(Timer t){
+
+  t.displayClock();
+  char ele;
+  v.detectElectrode(ele);
+  if(ele == 'Y' || ele == 'y')
+    t.e.setElectrode(true);
+  else
+    t.e.setElectrode(false);
+  if(t.e.getElectrode() == true) t.timer();
+
 }

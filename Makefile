@@ -1,12 +1,15 @@
 OPT = -Wall
 
-OBJS = main.o Control.o View.o Program.o Frequency.o BabyDoctor.o Settings.o DigitalClock.o
+OBJS = main.o Control.o View.o Program.o Electrode.o Frequency.o BabyDoctor.o Settings.o Timer.o Alarm.o
 
 denas:	$(OBJS)
 	g++ $(OPT) -o denas $(OBJS)
 
 main.o:	Main.cc Control.h
 	g++ $(OPT) -c Main.cc
+
+Control.o:	Control.cc Control.h
+	g++ $(OPT) -c	Control.cc
 
 View.o:	View.cc View.h
 	g++ $(OPT) -c View.cc
@@ -23,8 +26,14 @@ BabyDoctor.o:	BabyDoctor.cc BabyDoctor.h
 Settings.o:	Settings.cc Settings.h
 	g++ $(OPT) -c Settings.cc
 
-DigitalClock.o:	DigitalClock.cc DigitalClock.h
-	g++ $(OPT) -c DigitalClock.cc
+Timer.o:	Timer.cc Timer.h
+	g++ $(OPT) -c Timer.cc
+
+Electrode.o:	Electrode.h Electrode.cc
+	g++ $(OPT) -c Electrode.cc
+
+Alarm.o:	Alarm.cc Alarm.h
+	g++ $(OPT) -c Alarm.cc
 
 clean:
 	rm -f $(OBJS) denas

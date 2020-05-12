@@ -36,7 +36,9 @@ int Frequency :: frequencyMenu(int& selection)
     cout << "PRESS (0) TO GO BACK" << endl;
     cout << endl;
 
-  while (selection < 0 || selection > numOptions) {
+  while (selection < 0 || selection > numOptions|| cin.fail()){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(),'\n');
     cout << "Enter your selection: ";
     cin  >> selection;
   }

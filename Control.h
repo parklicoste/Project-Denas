@@ -2,7 +2,7 @@
 #define CONTROL_H
 
 #include "View.h"
-
+#include "Timer.h"
 
 class Control
 {
@@ -16,6 +16,7 @@ class Control
         void handleFrequency();
         void handleChildern();
         void handleSettings();
+        void runTimer(Timer);
 
 };
 #endif
